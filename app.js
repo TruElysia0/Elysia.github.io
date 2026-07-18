@@ -1,8 +1,9 @@
 (function () {
-  const data = window.BLOG_DATA;
+  const data = { ...window.BLOG_DATA, posts: window.BLOG_POSTS || [] };
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
-  const escapeHtml = (str = "") => str.replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+  const escapeHtml = (str = "") => String(str).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+  const safeUrl = (url = "") => /^(https?:\/\/|mailto:|#|\/|\.\.?\/|assets\/)/i.test(url.trim()) ? url.trim() : "#";
 
   function fillSiteInfo() {
     $$('[data-site-name]').forEach(el => el.textContent = data.site.name);
@@ -68,22 +69,42 @@
   }
 
   function markdown(md) {
-    const lines = escapeHtml(md).split('\n'); let html = '', inList = false, ordered = false;
-    const inline = s => s.replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-    lines.forEach(line => {
+    const lines = String(md || '').replace(/\r\n/g, '\n').split('\n');
+    let html = '', inList = false, ordered = false, inCode = false, codeLines = [];
+    const closeList = () => { if (inList) { html += ordered ? '</ol>' : '</ul>'; inList = false; } };
+    const inline = raw => {
+      let s = escapeHtml(raw);
+      s = s.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, url) => `<img src="${escapeHtml(safeUrl(url))}" alt="${alt}" loading="lazy">`);
+      s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, url) => `<a href="${escapeHtml(safeUrl(url))}" target="_blank" rel="noreferrer">${label}</a>`);
+      s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
+      s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+      return s;
+    };
+
+    for (const line of lines) {
+      if (line.trim().startsWith('```')) {
+        closeList();
+        if (!inCode) { inCode = true; codeLines = []; }
+        else { html += `<pre><code>${escapeHtml(codeLines.join('\n'))}</code></pre>`; inCode = false; }
+        continue;
+      }
+      if (inCode) { codeLines.push(line); continue; }
       if (/^[-*] /.test(line) || /^\d+\. /.test(line)) {
         const isOrdered = /^\d+\. /.test(line);
-        if (!inList || ordered !== isOrdered) { if (inList) html += ordered ? '</ol>' : '</ul>'; ordered = isOrdered; html += ordered ? '<ol>' : '<ul>'; inList = true; }
-        html += `<li>${inline(line.replace(/^([-*]|\d+\.) /, ''))}</li>`; return;
+        if (!inList || ordered !== isOrdered) { closeList(); ordered = isOrdered; html += ordered ? '<ol>' : '<ul>'; inList = true; }
+        html += `<li>${inline(line.replace(/^([-*]|\d+\.) /, ''))}</li>`;
+        continue;
       }
-      if (inList) { html += ordered ? '</ol>' : '</ul>'; inList = false; }
+      closeList();
       if (line.startsWith('# ')) html += `<h1>${inline(line.slice(2))}</h1>`;
       else if (line.startsWith('## ')) html += `<h2>${inline(line.slice(3))}</h2>`;
       else if (line.startsWith('### ')) html += `<h3>${inline(line.slice(4))}</h3>`;
-      else if (line.startsWith('&gt; ')) html += `<blockquote>${inline(line.slice(5))}</blockquote>`;
+      else if (line.startsWith('> ')) html += `<blockquote>${inline(line.slice(2))}</blockquote>`;
+      else if (line.trim() === '---') html += '<hr>';
       else if (line.trim()) html += `<p>${inline(line)}</p>`;
-    });
-    if (inList) html += ordered ? '</ol>' : '</ul>';
+    }
+    closeList();
+    if (inCode) html += `<pre><code>${escapeHtml(codeLines.join('\n'))}</code></pre>`;
     return html;
   }
 
