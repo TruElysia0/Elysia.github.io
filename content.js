@@ -7,7 +7,7 @@ window.BLOG_DATA = {
     name: "永世乐土",
     owner: "昔米露",
     eyebrow: "WELCOME TO MY LITTLE UNIVERSE",
-    description: "在代码与晚风之间，收藏灵感、技术和生活里的闪光碎片。",
+    description: "历历浮生，无非败而后成。",
     status: "持续更新中",
     location: "中国",
     github: "https://github.com/TruElysia",
