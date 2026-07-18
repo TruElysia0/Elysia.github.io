@@ -1,6 +1,7 @@
 # 星屿手记 — 二次元风格个人博客
 
 零框架、零构建依赖的响应式静态博客，可直接部署到 GitHub Pages。
+https://truelyisa.github.io/Elysia.github.io/#home
 
 ## 已包含
 
