@@ -4,25 +4,25 @@
  */
 window.BLOG_DATA = {
   site: {
-    name: "星屿手记",
-    owner: "你的名字",
+    name: "永世乐土",
+    owner: "昔米露",
     eyebrow: "WELCOME TO MY LITTLE UNIVERSE",
     description: "在代码与晚风之间，收藏灵感、技术和生活里的闪光碎片。",
     status: "持续更新中",
     location: "中国",
-    github: "https://github.com/yourname",
+    github: "https://github.com/TruElysia",
     avatarText: "星",
-    about: "这里填写一段 80～150 字的自我介绍：你是谁、在做什么、喜欢什么，以及建立这个博客的原因。也可以写下你的长期目标，帮助新朋友快速认识你。",
-    skills: ["前端开发", "AI 探索", "摄影", "动漫", "独立创作"],
+    about: "一万个冬天以后是一万个春天，一万次离别后是一万次相见，或许过往已无可溯洄，但好在还有可以与你相遇的明天。",
+    skills: [ "AI 探索", "动漫", "工具分享"],
     socials: [
-      { name: "GitHub", url: "https://github.com/yourname", icon: "⌘" },
-      { name: "邮箱", url: "mailto:you@example.com", icon: "✉" },
-      { name: "哔哩哔哩", url: "https://space.bilibili.com/", icon: "▣" }
+      { name: "GitHub", url: "https://github.com/TruElysia", icon: "⌘" },
+      //{ name: "邮箱", url: "mailto:you@example.com", icon: "✉" },
+      { name: "哔哩哔哩", url: "https://space.bilibili.com/3546799103019529/", icon: "▣" }
     ]
   },
 
   // 推荐板块：技术 / 随笔 / ACG / 摄影 / 教程。可以任意增删。
-  categories: ["全部", "技术", "随笔", "ACG", "摄影", "教程"],
+  categories: ["全部", "技术", "随笔", "ACG", "教程"],
 
   posts: [
     {
