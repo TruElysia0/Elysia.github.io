@@ -18,24 +18,3 @@ footer{width:min(1180px,90vw);margin:110px auto 0;border-top:1px solid var(--lin
 .article-body img{display:block;max-width:100%;height:auto;margin:26px auto;border-radius:16px;box-shadow:var(--shadow)}
 .article-body a{color:var(--cyan);text-decoration:underline;text-underline-offset:3px}
 .article-body hr{border:0;border-top:1px solid var(--line);margin:34px 0}
-
-/* Daily learning notes inside the articles section */
-.learning-notes{margin-top:42px;padding:28px;border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(135deg,rgba(141,130,255,.1),rgba(255,131,183,.05)),var(--surface)}
-.notes-heading{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:22px}
-.notes-heading h3{font-size:28px;margin:3px 0 0}
-.notes-heading>p{max-width:410px;margin:0;color:var(--muted);font-size:13px}
-.note-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.note-card{position:relative;display:grid;grid-template-columns:58px 1fr auto;gap:16px;align-items:start;min-height:142px;padding:20px;border:1px solid var(--line);border-radius:17px;background:rgba(9,11,27,.34);transition:.25s}
-.note-card:hover{transform:translateY(-3px);border-color:rgba(141,130,255,.48);box-shadow:0 15px 35px rgba(0,0,0,.18)}
-[data-theme=light] .note-card{background:rgba(255,255,255,.5)}
-.note-link{position:absolute;inset:0;z-index:2;border:0;background:transparent;cursor:pointer}
-.note-date{display:flex;flex-direction:column;align-items:center;padding:8px 4px;border-radius:13px;background:linear-gradient(145deg,var(--purple),#6e63d6);color:#fff}
-.note-date strong{font-size:22px;line-height:1}
-.note-date span{margin-top:5px;font-size:10px}
-.note-copy small{color:var(--pink);font-size:10px;font-weight:800;letter-spacing:.08em}
-.note-copy h4{margin:5px 0;font-size:16px}
-.note-copy p{margin:0 0 10px;color:var(--muted);font-size:12px;line-height:1.6}
-.note-arrow{color:var(--muted)}
-.notes-empty{margin:0;padding:32px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:16px}
-@media(max-width:850px){.note-grid{grid-template-columns:1fr}.notes-heading{align-items:start;flex-direction:column}}
-@media(max-width:560px){.learning-notes{padding:20px}.note-card{grid-template-columns:52px 1fr}.note-arrow{display:none}}

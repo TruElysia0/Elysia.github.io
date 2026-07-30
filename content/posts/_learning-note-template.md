@@ -2,9 +2,13 @@
 id: replace-with-unique-english-id
 title: 今天学到了什么
 date: 2026-07-30
-topic: 学习主题
-summary: 用一两句话概括今天最重要的收获。
-tags: ["标签一", "标签二"]
+category: 学习笔记
+readTime: 3 分钟
+accent: cyan
+emoji: 📚
+featured: false
+excerpt: 用一两句话概括今天最重要的学习收获。
+tags: ["学习", "每日记录"]
 draft: true
 ---
 

@@ -1,5 +1,5 @@
 (function () {
-  const data = { ...window.BLOG_DATA, posts: window.BLOG_POSTS || [], notes: window.BLOG_NOTES || [] };
+  const data = { ...window.BLOG_DATA, posts: window.BLOG_POSTS || [] };
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
   const escapeHtml = (str = "") => String(str).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
@@ -108,23 +108,6 @@
     return html;
   }
 
-  function renderLearningNotes() {
-    const notes = data.notes.slice(0, 6);
-    $('#note-grid').innerHTML = notes.map(note => `<article class="note-card">
-      <button class="note-link" data-note="${note.id}" aria-label="阅读《${escapeHtml(note.title)}》"></button>
-      <div class="note-date"><strong>${new Date(note.date).getDate().toString().padStart(2, '0')}</strong><span>${new Intl.DateTimeFormat('zh-CN', { month:'short' }).format(new Date(note.date))}</span></div>
-      <div class="note-copy">
-        <small>${escapeHtml(note.topic)}</small>
-        <h4>${escapeHtml(note.title)}</h4>
-        <p>${escapeHtml(note.summary)}</p>
-        <div class="tag-row">${note.tags.map(t => `<span># ${escapeHtml(t)}</span>`).join('')}</div>
-      </div>
-      <span class="note-arrow">↗</span>
-    </article>`).join('');
-    $('#empty-notes').hidden = notes.length !== 0;
-    $$('[data-note]').forEach(btn => btn.addEventListener('click', () => openNote(btn.dataset.note)));
-  }
-
   function openPost(id, updateHash = true) {
     const post = data.posts.find(p => p.id === id); if (!post) return;
     $('#post-content').innerHTML = `<header><span class="featured-label">${post.category}</span><h1>${escapeHtml(post.title)}</h1><p>${formatDate(post.date)} · ${post.readTime}</p><div class="tag-row">${post.tags.map(t => `<span># ${escapeHtml(t)}</span>`).join('')}</div></header><div class="article-body">${markdown(post.content)}</div>`;
@@ -132,16 +115,9 @@
     if (updateHash) history.pushState(null, '', `#post/${post.id}`);
   }
 
-  function openNote(id, updateHash = true) {
-    const note = data.notes.find(n => n.id === id); if (!note) return;
-    $('#post-content').innerHTML = `<header><span class="featured-label">学习笔记 · ${escapeHtml(note.topic)}</span><h1>${escapeHtml(note.title)}</h1><p>${formatDate(note.date)}</p><div class="tag-row">${note.tags.map(t => `<span># ${escapeHtml(t)}</span>`).join('')}</div></header><div class="article-body">${markdown(note.content)}</div>`;
-    const dialog = $('#post-dialog'); dialog.showModal(); document.body.classList.add('modal-open');
-    if (updateHash) history.pushState(null, '', `#note/${note.id}`);
-  }
-
   function closePost() {
     $('#post-dialog').close(); document.body.classList.remove('modal-open');
-    if (location.hash.startsWith('#post/') || location.hash.startsWith('#note/')) history.pushState(null, '', '#posts');
+    if (location.hash.startsWith('#post/')) history.pushState(null, '', '#posts');
   }
 
   function bindPostButtons() { $$('[data-post]').forEach(btn => btn.addEventListener('click', () => openPost(btn.dataset.post))); }
@@ -170,14 +146,10 @@
     $('.back-top').addEventListener('click', () => scrollTo({top:0, behavior:'smooth'}));
     document.addEventListener('mousemove', e => { const glow = $('.cursor-glow'); glow.style.left = `${e.clientX}px`; glow.style.top = `${e.clientY}px`; });
     window.addEventListener('scroll', () => $('.site-header').classList.toggle('scrolled', scrollY > 30));
-    window.addEventListener('hashchange', () => {
-      if (location.hash.startsWith('#post/')) openPost(location.hash.split('/')[1], false);
-      if (location.hash.startsWith('#note/')) openNote(location.hash.split('/')[1], false);
-    });
+    window.addEventListener('hashchange', () => { if (location.hash.startsWith('#post/')) openPost(location.hash.split('/')[1], false); });
   }
 
-  fillSiteInfo(); renderFilters(); renderPosts(); renderLearningNotes(); renderCollections(); createPetals(); setupUI(); observeReveals();
+  fillSiteInfo(); renderFilters(); renderPosts(); renderCollections(); createPetals(); setupUI(); observeReveals();
   $('#year').textContent = new Date().getFullYear();
   if (location.hash.startsWith('#post/')) setTimeout(() => openPost(location.hash.split('/')[1], false), 0);
-  if (location.hash.startsWith('#note/')) setTimeout(() => openNote(location.hash.split('/')[1], false), 0);
 })();

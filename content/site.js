@@ -20,7 +20,7 @@ window.BLOG_DATA = {
     ]
   },
 
-  categories: ["全部", "技术", "随笔", "ACG", "教程"],
+  categories: ["全部", "技术", "随笔", "ACG", "教程", "学习笔记"],
 
   projects: [
     { title: "你的代表项目", type: "Web / 2026", description: "填写项目解决的问题、你的职责和最值得介绍的成果。", url: "#", icon: "✦", color: "purple" },
