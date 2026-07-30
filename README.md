@@ -147,3 +147,15 @@ python -m http.server 8000
 ├─ styles.css
 └─ .github/workflows/pages.yml
 ```
+
+## 发布每日学习笔记
+
+学习笔记会显示在首页“最新文章”下方的小版块中。日常更新步骤：
+
+1. 复制 `content/notes/_template.md`。
+2. 重命名为 `YYYY-MM-DD-英文短标题.md`。
+3. 填写标题、日期、主题、摘要、标签和正文。
+4. 将 `draft: true` 改为 `draft: false`。
+5. 使用 GitHub Desktop 提交并推送；GitHub Actions 会自动更新首页。
+
+学习笔记默认按日期从新到旧排列，首页展示最近 6 篇。
