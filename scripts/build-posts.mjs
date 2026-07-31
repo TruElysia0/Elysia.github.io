@@ -1,4 +1,5 @@
 import { readdir, readFile, mkdir, writeFile } from "node:fs/promises";
+import { createHash } from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -75,5 +76,26 @@ for (const post of posts) {
 posts.sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
 
 await mkdir(outputDir, { recursive: true });
-await writeFile(outputFile, `/* 此文件由 scripts/build-posts.mjs 自动生成，请勿手动修改。 */\nwindow.BLOG_POSTS = ${JSON.stringify(posts, null, 2)};\n`, "utf8");
+const postsOutput = `/* 此文件由 scripts/build-posts.mjs 自动生成，请勿手动修改。 */\nwindow.BLOG_POSTS = ${JSON.stringify(posts, null, 2)};\n`;
+await writeFile(outputFile, postsOutput, "utf8");
+
+const indexFile = path.join(root, "index.html");
+const assetContents = await Promise.all([
+  readFile(path.join(root, "styles.css"), "utf8"),
+  readFile(path.join(root, "content", "site.js"), "utf8"),
+  readFile(path.join(root, "app.js"), "utf8")
+]);
+const buildVersion = createHash("sha256")
+  .update(postsOutput)
+  .update(assetContents.join("\n"))
+  .digest("hex")
+  .slice(0, 12);
+const currentIndex = await readFile(indexFile, "utf8");
+const versionedIndex = currentIndex.replace(
+  /(styles\.css|content\/site\.js|generated\/posts\.js|app\.js)\?v=[^"']+/g,
+  `$1?v=${buildVersion}`
+);
+if (versionedIndex !== currentIndex) await writeFile(indexFile, versionedIndex, "utf8");
+
 console.log(`Generated ${posts.length} posts -> ${path.relative(root, outputFile)}`);
+console.log(`Asset version: ${buildVersion}`);
