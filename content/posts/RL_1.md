@@ -9,7 +9,7 @@ emoji: 🤖
 featured: false
 excerpt: 学习 RoboTwin 2.0 的仿真数据生成闭环，理解对象操作标注、一条机器人轨迹所需的信息，以及视觉随机化和动力学随机化各自解决的问题。
 tags: ["机器人学习", "仿真数据", "RoboTwin", "Sim-to-Real", "每日记录"]
-draft: true
+draft: false
 ---
 
 # 从 RoboTwin 2.0 理解机器人仿真数据合成
