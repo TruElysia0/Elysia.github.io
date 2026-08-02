@@ -8,6 +8,7 @@ accent: violet
 emoji: 🌌
 excerpt: 为什么要重新拥有一块属于自己的互联网角落，以及我准备在这里分享什么。
 tags: ["博客", "生活", "开始"]
+draft: false
 ---
 
 # 你好，欢迎来到我的博客

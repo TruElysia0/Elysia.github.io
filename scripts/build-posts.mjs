@@ -45,7 +45,8 @@ function parsePost(source, filename) {
     excerpt: meta.excerpt || "",
     tags: Array.isArray(meta.tags) ? meta.tags : [],
     content: match[2].trim(),
-    draft: meta.draft === true,
+    // 只有明确写 draft: false 的文章才会进入正式发布流程。
+    draft: meta.draft !== false,
     source: `content/posts/${filename}`
   };
 

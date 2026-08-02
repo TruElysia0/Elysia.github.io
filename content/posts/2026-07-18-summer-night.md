@@ -9,6 +9,7 @@ emoji: 🌙
 featured: true
 excerpt: 晚风、灯光，以及这个夏天值得记住的一些小事。
 tags: ["生活", "夏天", "随笔"]
+draft: false
 ---
 
 # 夏夜随笔

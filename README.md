@@ -4,13 +4,13 @@
 
 ## 最常用：发布一篇新文章
 
-日常写作只需要操作 `content/posts/`，不要修改 `app.js` 或自动生成的 `generated/posts.js`。
+日常写作使用 `content/drafts/` 和 `content/posts/`，不要修改 `app.js` 或自动生成的 `generated/posts.js`。
 
 ### 直接在 GitHub 网页发布
 
-1. 打开仓库中的 `content/posts/_template.md`。
+1. 打开仓库中的 `content/templates/post.md`。
 2. 点击右上角的复制按钮，将模板内容复制下来。
-3. 返回 `content/posts`，点击 `Add file → Create new file`。
+3. 返回 `content/drafts`，点击 `Add file → Create new file`。
 4. 文件名填写 `年-月-日-英文短标题.md`，例如：
 
    ```text
@@ -18,15 +18,16 @@
    ```
 
 5. 粘贴模板，修改标题、日期、分类、摘要和正文。
-6. 把 `draft: true` 改成 `draft: false`。
+6. 文章准备发布时，将文件移动到 `content/posts/`，并确认 `draft: false`。
 7. 点击 `Commit changes`。GitHub Actions 会自动整理文章并发布网站。
 
 ### 使用 GitHub Desktop 发布
 
-1. 在本地仓库的 `content/posts/` 中复制 `_template.md`。
+1. 在本地仓库的 `content/templates/` 中复制 `post.md` 到 `content/drafts/`。
 2. 重命名并编辑文章。
-3. 在 GitHub Desktop 填写提交说明，例如“新增雨天随笔”。
-4. 点击 `Commit to main`，然后点击 `Push origin`。
+3. 文章准备发布时，将文件移动到 `content/posts/`，并确认 `draft: false`。
+4. 在 GitHub Desktop 填写提交说明，例如“新增雨天随笔”。
+5. 点击 `Commit to main`，然后点击 `Push origin`。
 
 ## 文章格式
 
@@ -59,7 +60,7 @@ draft: false
 | `category` | 建议与 `content/site.js` 中的分类一致 |
 | `accent` | 可用 `violet`、`cyan`、`pink`、`amber` |
 | `featured` | `true` 表示优先成为首页推荐文章 |
-| `draft` | `true` 不发布；`false` 正式发布 |
+| `draft` | 必须明确写 `false` 才正式发布；`true` 或未填写都不会发布 |
 | `tags` | 使用英文双引号和英文逗号 |
 
 正文支持标题、列表、引用、粗体、链接、图片、行内代码和围栏代码块。
@@ -115,7 +116,7 @@ GitHub Pages
 
 构建程序会自动完成：
 
-- 忽略 `_template.md` 和 `draft: true` 的草稿
+- 只扫描 `content/posts/` 中明确写 `draft: false` 的 Markdown 文件
 - 检查必填字段及重复文章 ID
 - 按日期从新到旧排序
 - 生成首页搜索、分类和文章阅读所需的数据
@@ -134,9 +135,13 @@ python -m http.server 8000
 ```text
 ├─ content/
 │  ├─ site.js
-│  └─ posts/
-│     ├─ _template.md
-│     └─ 2026-07-18-summer-night.md
+│  ├─ posts/                  # 正式发布文章
+│  │  └─ 2026-07-18-summer-night.md
+│  ├─ drafts/                 # 草稿与历史未发布笔记
+│  │  └─ 2026-07-30-robot-learn-day-1.md
+│  └─ templates/              # 写作模板
+│     ├─ post.md
+│     └─ learning-note.md
 ├─ generated/
 │  └─ posts.js
 ├─ scripts/
@@ -152,10 +157,10 @@ python -m http.server 8000
 
 “学习笔记”是与“技术”“随笔”“ACG”“教程”并列的文章分类。日常更新步骤：
 
-1. 复制 `content/posts/_learning-note-template.md`。
+1. 复制 `content/templates/learning-note.md` 到 `content/drafts/`。
 2. 重命名为 `YYYY-MM-DD-英文短标题.md`。
 3. 填写标题、日期、摘要、标签和正文，保留 `category: 学习笔记`。
-4. 将 `draft: true` 改为 `draft: false`。
+4. 准备发布时，将文件移动到 `content/posts/`，并确认 `draft: false`。
 5. 使用 GitHub Desktop 提交并推送；GitHub Actions 会自动更新首页。
 
 发布后可在首页文章分类中的“学习笔记”标签查看。
