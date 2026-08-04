@@ -9,7 +9,7 @@ emoji: 📚
 featured: false
 excerpt: 理解 LeRobot 的命令入口、遥操作主流程、异常清理和控制循环频率。
 tags: ["LeRobot", "Python", "代码阅读"]
-draft: true
+draft: false
 ---
 
 # LeRobot 代码学习：第一天

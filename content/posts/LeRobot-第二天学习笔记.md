@@ -9,7 +9,7 @@ emoji: 📚
 featured: false
 excerpt: 理解 Robot 抽象接口、SOFollower 具体实现，以及机器人工厂函数如何根据配置创建对象。
 tags: ["LeRobot", "机器人", "Robot", "代码阅读"]
-draft: true
+draft: false
 ---
 
 # LeRobot 代码学习：第二天
